@@ -1,0 +1,26 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="sickleCellPatientDAO" class="org.bahmni.custom.data.dao.impl.SickleCellPatientDAOImpl">
+		<property name="dataSource" ref="erpdatasource" />
+	</bean>
+
+	<bean id="jobDAO" class="org.bahmni.custom.data.dao.impl.JobDAOImpl">
+		<property name="dataSource" ref="erpdatasource" />
+	</bean>
+
+	<bean id="programDAO" class="org.bahmni.custom.data.dao.impl.ProgramDAOImpl">
+		<property name="dataSource" ref="mrsdatasource" />
+	</bean>
+
+	<bean id="vistiDetailDAO" class="org.bahmni.custom.data.dao.impl.VistiDetailDAOImpl">
+		<property name="dataSource" ref="mrsdatasource" />
+	</bean>
+
+	<bean id="visitPersisterDAO" class="org.bahmni.custom.data.dao.impl.VisitPersisterDAOImpl">
+		<property name="dataSource" ref="erpdatasource" />
+	</bean>
+
+</beans>
