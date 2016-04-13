@@ -52,7 +52,7 @@ public class VisitPersisterDAOImpl extends JdbcDaoSupport implements VisitPersis
         String sql = "insert into syncjob_visit (erp_patient_id,diagnoses,visit_uuid,visit_startdate" +
                 ",visit_stopdate,visit_type,visit_type_id,date) values (?,?,?,?,?,?,?,?)";
         getJdbcTemplate().update(sql,openERPPatientId, detail.getDiagnosis(),detail.getVisitUuid(),Utils.convertISTToGMT(detail.getStartDate())
-                , Utils.convertISTToGMT(detail.getStopDate()), detail.getVisitType(), visitTypeId, detail.getDate());
+                , Utils.convertISTToGMT(detail.getStopDate()), detail.getVisitType(), visitTypeId, Utils.convertISTToGMT(detail.getDate()));
         insertPatientExtras(detail, openERPPatientId);
     }
 
