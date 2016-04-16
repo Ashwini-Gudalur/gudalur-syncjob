@@ -21,21 +21,25 @@ public class VisitPersisterDAOImpl extends JdbcDaoSupport implements VisitPersis
     static List<String> IPD_VT = Arrays.asList("IPD");
 
     public void saveVisits(List<VisitDetail> visitDetails) throws SyncException {
+        logger.info("To Insert :"+ visitDetails.size());
+        int insertcount = 0 ;
         for (VisitDetail visitDetail : visitDetails) {
             int openERPPatientId = Utils.getOpenERPPatientId(visitDetail, getJdbcTemplate(), logger);
             int visitTypeId = getVisitTypeId(visitDetail.getVisitType());
             if (openERPPatientId>0){
                 try {
                     insertVisit(visitDetail, openERPPatientId, visitTypeId);
+                    insertcount++;
                 }catch (Exception e){
-                    logger.error("Failed to insert Visit :"+ visitDetail.toString(), e);
-                    throw new SyncException("Failed to insert visit:"+visitDetail.toString());
+                    logger.error("Failed to insert Visit skipping :"+ visitDetail.toString(), e);
+//                    throw new SyncException("Failed to insert visit:"+visitDetail.toString());
                 }
             }else {
-                logger.error("Patient Not found in ERP :-"+ visitDetail);
-                throw new SyncException("Patient Not found in ERP :-"+ visitDetail);
+                logger.error("Patient Not found in ERP skipping :-"+ visitDetail);
+//                throw new SyncException("Patient Not found in ERP :-"+ visitDetail);
             }
         }
+        logger.info("Inserted :"+ insertcount);
     }
 
     private int getVisitTypeId(String visitType) {
@@ -52,7 +56,7 @@ public class VisitPersisterDAOImpl extends JdbcDaoSupport implements VisitPersis
         String sql = "insert into syncjob_visit (erp_patient_id,diagnoses,visit_uuid,visit_startdate" +
                 ",visit_stopdate,visit_type,visit_type_id,date) values (?,?,?,?,?,?,?,?)";
         getJdbcTemplate().update(sql,openERPPatientId, detail.getDiagnosis(),detail.getVisitUuid(),Utils.convertISTToGMT(detail.getStartDate())
-                , Utils.convertISTToGMT(detail.getStopDate()), detail.getVisitType(), visitTypeId, Utils.convertISTToGMT(detail.getDate()));
+                , Utils.convertISTToGMT(detail.getStopDate()), detail.getVisitType(), visitTypeId, detail.getDate());
         insertPatientExtras(detail, openERPPatientId);
     }
 

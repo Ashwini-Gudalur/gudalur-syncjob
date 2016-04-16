@@ -24,7 +24,7 @@ public class VistiDetailDAOImpl extends JdbcDaoSupport implements VistiDetailDAO
                 "  LEFT JOIN person p on p.person_id=v.patient_id " +
                 "LEFT JOIN patient_identifier pi on pi.patient_id=v.patient_id "+
                 "  LEFT JOIN confirmed_diagnosis_view_new cdv on cdv.visit_id=v.visit_id " +
-                "where v.voided=0 and v.date_stopped>? and v.date_stopped<=? GROUP BY v.visit_id ORDER by v.date_stopped ASC ";
+                "where v.voided=0 and v.date_changed>? and v.date_changed<=? GROUP BY v.visit_id ORDER by v.date_stopped ASC ";
         //visit start, stop, IPD, OPD,Confirmed diagnosises
         List<VisitDetail> visits = getJdbcTemplate().query(sql,new Object[]{lastSuccessfulRunDate,now}, new RowMapper<VisitDetail>() {
             public VisitDetail mapRow(ResultSet rs, int rownumber) throws SQLException {
