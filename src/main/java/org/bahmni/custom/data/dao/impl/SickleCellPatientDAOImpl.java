@@ -1,6 +1,7 @@
 package org.bahmni.custom.data.dao.impl;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -33,9 +34,9 @@ public class SickleCellPatientDAOImpl extends JdbcDaoSupport implements SickleCe
 		}
 	}
 
-	private void insertSCPatient(Patient patient, int openERPPatientId) {
+	private void insertSCPatient(Patient patient, int openERPPatientId) throws ParseException {
 		String sql = "insert into " + SYNCJOB_SICKLE_CELL_PATIENT + " (erp_id,date) values (?,?)";
-		getJdbcTemplate().update(sql,openERPPatientId,patient.getDate());
+		getJdbcTemplate().update(sql,openERPPatientId,Utils.convertISTToGMT(patient.getDate()));
 	}
 
 	public Timestamp getLastSuccessfulRunDate() {
