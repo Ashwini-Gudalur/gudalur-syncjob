@@ -25,7 +25,7 @@ public class SickleCellPatientDAOImpl extends JdbcDaoSupport implements SickleCe
 					insertSCPatient(patient, openERPPatientId);
 				}catch (Exception e){
 					logger.error("Failed to insert patient :"+ patient.toString(), e);
-					throw new SyncException("Failed to insert patient :"+ patient.toString());
+//					throw new SyncException("Failed to insert patient :"+ patient.toString());
 				}
 			}else {
 				logger.error("Patient Not found in ERP :-"+ patient);
